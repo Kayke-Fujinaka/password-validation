@@ -1,56 +1,91 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const password = "1234567812345678!@";
-// Eles estão armazenas, pois facilitarão caso precise alterar alguma exigência
-// Variável para armazenar os números de 0 a 9
+const password = "1234567812345678!!";
 const numbers = "0123456789";
-// Variáveis para armazenar o menor e o maior tamanho da senha
 const minLength = 16;
 const maxLength = 32;
-// Variável para armazenar os caracteres especiais
 const specialCharacters = '&!?@#$*+%=.,/\\[]{}();: ¨ ^~¨´`ç"“”‘’‚„‹›<>«»ºª–­-_  ¯…¦•‣¶§';
-const numberValid = (password) => {
-    const numberValid = password.split("").filter((e) => numbers.includes(e));
-    if (numberValid.length < 1) {
-        return false;
-    }
-    return true;
+// Vai validar se tem um número e se tem dois caracteres especiais na senha
+const passwordValidOfNumberAndSpecialChar = (password, type, charLength) => {
+    const passwordValid = password.split("").filter((valuePassword) => {
+        if (type === "numbers")
+            return numbers.includes(valuePassword);
+        if (type === "specialCharacters") {
+            return specialCharacters.includes(valuePassword);
+        }
+    });
+    return passwordValid.length < charLength ? false : true;
 };
-const lengthValid = (password) => {
+const uppercaseAndLowercaseValidation = (password, letterCase) => {
+    password.split("").forEach((element) => {
+        if (numbers.includes(element) || specialCharacters.includes(element)) {
+            return true;
+        }
+        if (element.toUpperCase() === element) {
+            letterCase = true;
+            console.log(element);
+        }
+    });
+    return letterCase;
+};
+function isValidUppercase(password) {
+    let upCase = false;
+    password.split("").forEach((element) => {
+        if (numbers.includes(element) || specialCharacters.includes(element)) {
+            return true;
+        }
+        if (element.toUpperCase() === element) {
+            upCase = true;
+        }
+    });
+    return upCase;
+}
+function isValidLowerCase(password) {
+    let lowCase = false;
+    password.split("").forEach((element) => {
+        if (numbers.includes(element) || specialCharacters.includes(element)) {
+            return true;
+        }
+        if (element.toLowerCase() === element) {
+            lowCase = true;
+        }
+    });
+    return lowCase;
+}
+// Vai validar se tem o tamanho de caracteres exigidos
+const lengthValidation = (password) => {
     return password.length <= minLength || password.length >= maxLength
         ? false
         : true;
 };
-const specialCharactersValid = (password) => {
-    const specialValid = password
-        .split("")
-        .filter((e) => specialCharacters.includes(e));
-    if (specialValid.length < 2) {
-        return false;
-    }
-    return true;
-};
-const passwordValid = (password) => {
+// Vai verificar se as validações estõ certas
+const checkPasswordValidations = (password) => {
     const errorsResult = {
         result: true,
         error: [],
     };
-    if (!numberValid(password)) {
+    if (!passwordValidOfNumberAndSpecialChar(password, "numbers", 1)) {
+        errorsResult.result = false;
         errorsResult.error.push("A senha deve conter um número");
-        errorsResult.result = false;
     }
-    if (!lengthValid(password)) {
-        errorsResult.error.push("A senha deve conter de 16 a 32 caracteres");
+    if (!passwordValidOfNumberAndSpecialChar(password, "specialCharacters", 2)) {
         errorsResult.result = false;
-    }
-    if (!specialCharactersValid(password)) {
         errorsResult.error.push("A senha deve conter 2 caracteres especiais");
+    }
+    if (!lengthValidation(password)) {
         errorsResult.result = false;
+        errorsResult.error.push("A senha deve conter de 16 a 32 caracteres");
+    }
+    if (!uppercaseAndLowercaseValidation(password)) {
+        errorsResult.result = false;
+        errorsResult.error.push("Não tem letra maiuscula");
+    }
+    if (!uppercaseAndLowercaseValidation(password)) {
+        errorsResult.result = false;
+        errorsResult.error.push("Não tem letra minuscula");
     }
     return errorsResult;
 };
-const callFunction = passwordValid(password);
-console.log(callFunction);
-console.log(specialCharactersValid(password));
+console.log(checkPasswordValidations(password));
 // npm run build - Conversão entre Typescript e Javascript
 // node index - Para executar
