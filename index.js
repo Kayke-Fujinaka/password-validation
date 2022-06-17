@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const password = "1234567812345678!!";
+const password = "1234567812345678!!aA";
 const numbers = "0123456789";
 const minLength = 16;
 const maxLength = 32;
@@ -16,48 +16,40 @@ const passwordValidOfNumberAndSpecialChar = (password, type, charLength) => {
     });
     return passwordValid.length < charLength ? false : true;
 };
-const uppercaseAndLowercaseValidation = (password, letterCase) => {
-    password.split("").forEach((element) => {
-        if (numbers.includes(element) || specialCharacters.includes(element)) {
-            return true;
-        }
-        if (element.toUpperCase() === element) {
-            letterCase = true;
-            console.log(element);
-        }
-    });
-    return letterCase;
-};
-function isValidUppercase(password) {
-    let upCase = false;
-    password.split("").forEach((element) => {
-        if (numbers.includes(element) || specialCharacters.includes(element)) {
-            return true;
-        }
-        if (element.toUpperCase() === element) {
-            upCase = true;
-        }
-    });
-    return upCase;
-}
-function isValidLowerCase(password) {
-    let lowCase = false;
-    password.split("").forEach((element) => {
-        if (numbers.includes(element) || specialCharacters.includes(element)) {
-            return true;
-        }
-        if (element.toLowerCase() === element) {
-            lowCase = true;
-        }
-    });
-    return lowCase;
-}
 // Vai validar se tem o tamanho de caracteres exigidos
 const lengthValidation = (password) => {
     return password.length <= minLength || password.length >= maxLength
         ? false
         : true;
 };
+function includeAndSpecialChar(element) {
+    if (numbers.includes(element) || specialCharacters.includes(element)) {
+        return true;
+    }
+    return false;
+}
+function uppercaseValidation(password) {
+    let upCase = false;
+    password.split("").forEach((element) => {
+        if (includeAndSpecialChar(element))
+            return true;
+        if (element.toUpperCase() === element) {
+            upCase = true;
+        }
+    });
+    return upCase;
+}
+function lowercaseValidation(password) {
+    let lowCase = false;
+    password.split("").forEach((element) => {
+        if (includeAndSpecialChar(element))
+            return true;
+        if (element.toLowerCase() === element) {
+            lowCase = true;
+        }
+    });
+    return lowCase;
+}
 // Vai verificar se as validações estõ certas
 const checkPasswordValidations = (password) => {
     const errorsResult = {
@@ -72,17 +64,17 @@ const checkPasswordValidations = (password) => {
         errorsResult.result = false;
         errorsResult.error.push("A senha deve conter 2 caracteres especiais");
     }
-    if (!lengthValidation(password)) {
-        errorsResult.result = false;
-        errorsResult.error.push("A senha deve conter de 16 a 32 caracteres");
-    }
-    if (!uppercaseAndLowercaseValidation(password)) {
+    if (!uppercaseValidation(password)) {
         errorsResult.result = false;
         errorsResult.error.push("Não tem letra maiuscula");
     }
-    if (!uppercaseAndLowercaseValidation(password)) {
+    if (!lowercaseValidation(password)) {
         errorsResult.result = false;
         errorsResult.error.push("Não tem letra minuscula");
+    }
+    if (!lengthValidation(password)) {
+        errorsResult.result = false;
+        errorsResult.error.push("A senha deve conter de 16 a 32 caracteres");
     }
     return errorsResult;
 };
