@@ -26,34 +26,31 @@ export const checkPasswordValid = (password: string): Response => {
   };
 
   // It'll Check if Function is True. If False, Returns an Error.
-  // Validation if the Password Contains one Number.
-  if (!digitAndSpecialCharsValid(password, "digit", 1)) {
+  // Validation it the Password Contains the Required Length.
+  if (password.length < minLength || password.length > maxLength) {
     response.result = false;
-    response.errors.push("The password must contain one digit");
+    response.errors.push("The password must contain 16 to 32 chars");
   }
+
   // It'll Check if Function is True. If False, Returns an Error.
   // Validation it the Password Contains two Special Chars.
-  if (!digitAndSpecialCharsValid(password, "specialChars", 2)) {
+  if (!specialCharsValid(password)) {
     response.result = false;
     response.errors.push("The password must contain two special chars");
   }
+
   // It'll Check if Function is True. If False, Returns an Error.
   // Validation it the Password Contains one Uppercase Letter.
   if (!upperCaseValid(password)) {
     response.result = false;
     response.errors.push("The password must contain uppercase letter");
   }
+
   // It'll Check if Function is True. If False, Returns an Error.
   // Validation it the Password Contains one Lowercase Letter.
   if (!lowerCaseValid(password)) {
     response.result = false;
-    response.errors.push("The password must contain lettercase letter");
-  }
-  // It'll Check if Function is True. If False, Returns an Error.
-  // Validation it the Password Contains the Required Length.
-  if (!lengthValid(password)) {
-    response.result = false;
-    response.errors.push("The password must contain 16 to 32 chars");
+    response.errors.push("The password must contain lowercase letter");
   }
 
   // if (!sequenceValid(password)) {
@@ -65,25 +62,12 @@ export const checkPasswordValid = (password: string): Response => {
   return response;
 };
 
-// Reusing a Function that had Different Validations, but the Same Logic, that is, I made a Function for these Two Cases.
-// I'll pass as a parameter the password, the type or what's the validation and the length of chars required. Will be passed in checkPasswordValid.
 // The function will check if the password has one digit and if it has two special chars.
-const digitAndSpecialCharsValid = (
-  password: string,
-  type: string,
-  charLength: number
-): boolean => {
-  // It'll split the password separating at each char. Additionaly, it filtering the value of the password, each char being.
-  const passwordValid = password.split("").filter((valuePassword) => {
-    // Conditional that'll check if the passed parameter is equal to "digit".
-    // Will return checking if the elements of the var "digit" are present in each char of the password.
-    if (type === "digit") return digit.includes(valuePassword);
-    // Conditional that'll check if the passed parameter is equal to "specialChars".
-    // Will return checking if the elements of the var "specialChars" are present in each char of the password.
-    if (type === "specialChars") return specialChars.includes(valuePassword);
-  });
-  // Conditional that'll check if the variable above contains the required number of chars.
-  return passwordValid.length < charLength ? false : true;
+const specialCharsValid = (password: string): boolean => {
+  const specialCaracteres = password
+    .split("")
+    .filter((char) => specialChars.includes(char));
+  return specialCaracteres.length < 2 ? false : true;
 };
 
 // Function that'll be declared in another function to not repeat the same line of code.
@@ -129,20 +113,30 @@ const lowerCaseValid = (password: string): boolean => {
   return lowCase;
 };
 
-// Will validate if it has the required character size.
-const lengthValid = (password: string): boolean => {
-  // Conditional that'll check if the password contains the required character length.
-  return password.length < minLength || password.length > maxLength
-    ? false
-    : true;
-};
+// const sequenceValidator = (password: string): boolean => {
+//   for (let i = 0; i < password.length; i++) {
+//     if (
+//       +password[i + 1] === +password[i] + 1 &&
+//       +password[i + 2] === +password[i] + 2
+//     ) {
+//       return false;
+//     }
+//   }
 
-// const sequenceValid = (password: string): boolean => {
-  
-//   return true; 
+//   const passwordUpperCase = password.toUpperCase();
+
+//   for (let i = 0; i < passwordUpperCase.length; i++) {
+//     if (
+//       String.fromCharCode(passwordUpperCase.charCodeAt(i) + 1) ===
+//         passwordUpperCase[i + 1] &&
+//       String.fromCharCode(passwordUpperCase.charCodeAt(i) + 2) ===
+//         passwordUpperCase[i + 2]
+//     ) {
+//       return false;
+//     }
+//   }
+
+//   return true;
 // };
 
 console.log(checkPasswordValid(password));
-
-// npm run build - Conversion between Typescript and Javascript.
-// node index - To run code.
