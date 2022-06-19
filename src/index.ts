@@ -1,14 +1,12 @@
-// Store the Password.
-const password = "635153721536357613Aa!!";
 // Stores the Digits from 0 to 9.
-const digit = "0123456789";
+const digit: string = "0123456789";
 // Stores the Special Chars.
-const specialChars =
+const specialChars: string =
   '&!?@#$*+%=.,/\\[]{}();: ¨ ^~¨´`ç"“”‘’‚„‹›<>«»ºª–­-_  ¯…¦•‣¶§';
 // Store the Maximum Length.
-const minLength = 16;
+const minLength: number = 16;
 // Store the Minimun Length.
-const maxLength = 32;
+const maxLength: number = 32;
 
 // Apply the Result Typing.
 export type Response = {
@@ -33,6 +31,13 @@ export const checkPasswordValid = (password: string): Response => {
   }
 
   // It'll Check if Function is True. If False, Returns an Error.
+  // Validation it the Password Contains one Digit Chars.
+  if (!digitValid(password)) {
+    response.result = false;
+    response.errors.push("The password must contain one digit chars");
+  }
+
+  // It'll Check if Function is True. If False, Returns an Error.
   // Validation it the Password Contains two Special Chars.
   if (!specialCharsValid(password)) {
     response.result = false;
@@ -53,20 +58,30 @@ export const checkPasswordValid = (password: string): Response => {
     response.errors.push("The password must contain lowercase letter");
   }
 
-  // if (!sequenceValid(password)) {
-  //   response.result = false;
-  //   response.errors.push("The password must contain a string that is not 3 characters followed by numbers or letters.");
-  // }
+  if (!sequenceValid(password)) {
+    response.result = false;
+    response.errors.push(
+      "It cannot contain more than 3 sequences of characters, letters or numbers (abc or 123, for example)"
+    );
+  }
 
   // Return the response.
   return response;
 };
 
-// The function will check if the password has one digit and if it has two special chars.
+// The function will check if the password has one digit.
+const digitValid = (password: string): boolean => {
+  const digitCharacters = password
+    .split("")
+    .filter((element) => digit.includes(element));
+  return digitCharacters.length < 1 ? false : true;
+};
+
+// The function will check if the password has two special chars.
 const specialCharsValid = (password: string): boolean => {
   const specialCaracteres = password
     .split("")
-    .filter((char) => specialChars.includes(char));
+    .filter((element) => specialChars.includes(element));
   return specialCaracteres.length < 2 ? false : true;
 };
 
@@ -106,37 +121,29 @@ const lowerCaseValid = (password: string): boolean => {
     // It'll return saying that it has a digit or special character. Thus, eliminating from the check.
     // If it is a letter it'll return as false
     if (includeDigitAndSpecialChar(element)) return true;
-    // Will lower every element and compare if there is an equivalent.
-    if (element.toLowerCase() === element) lowCase = true;
+    if (element.toLowerCase() === element)
+      // Will lower every element and compare if there is an equivalent.
+      lowCase = true;
   });
   // If it returns as false it is an error and if it is true, everything is ok with the password.
   return lowCase;
 };
 
-// const sequenceValidator = (password: string): boolean => {
-//   for (let i = 0; i < password.length; i++) {
-//     if (
-//       +password[i + 1] === +password[i] + 1 &&
-//       +password[i + 2] === +password[i] + 2
-//     ) {
-//       return false;
-//     }
-//   }
-
-//   const passwordUpperCase = password.toUpperCase();
-
-//   for (let i = 0; i < passwordUpperCase.length; i++) {
-//     if (
-//       String.fromCharCode(passwordUpperCase.charCodeAt(i) + 1) ===
-//         passwordUpperCase[i + 1] &&
-//       String.fromCharCode(passwordUpperCase.charCodeAt(i) + 2) ===
-//         passwordUpperCase[i + 2]
-//     ) {
-//       return false;
-//     }
-//   }
-
-//   return true;
-// };
-
-console.log(checkPasswordValid(password));
+// It'll check if the password contains sequential characters, for example: 'abc', '123', etc.
+const sequenceValid = (password: string): boolean => {
+  for (let i = 0; i < password.length; i++) {
+    if (
+      +password[i + 1] === +password[i] + 1 &&
+      +password[i + 2] === +password[i] + 2
+    ) {
+      return false;
+    }
+    if (
+      +password.charCodeAt(i + 1) == +password.charCodeAt(i) + 1 &&
+      +password.charCodeAt(i + 2) == +password.charCodeAt(i) + 2
+    ) {
+      return false;
+    }
+  }
+  return true;
+};

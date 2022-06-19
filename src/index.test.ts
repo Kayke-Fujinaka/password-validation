@@ -40,6 +40,19 @@ describe("checkPasswordValid", () => {
     expect(errors).toEqual([error]);
   });
 
+  it("Test to verify that the password does not have one Digit Chars", () => {
+    // Sets the error value equal to the validation value of this error from index.ts
+    const error = "The password must contain one digit chars";
+    // Define the SUT variable receiving the password validation function and pass it as a parameter
+    // Password with less than two special characters
+    SUT = checkPasswordValid("TRmfTLfZwP&qMoay!T");
+    // Desestruturing SUT Object
+    const { result, errors } = SUT;
+    // Set the expected values ​​of sut properties
+    expect(result).toEqual(false);
+    expect(errors).toEqual([error]);
+  });
+
   it("Test to verify that the password does not have two Special Chars", () => {
     // Sets the error value equal to the validation value of this error from index.ts
     const error = "The password must contain two special chars";
@@ -79,21 +92,50 @@ describe("checkPasswordValid", () => {
     expect(errors).toEqual([error]);
   });
 
-  it("Test to verify that the password does not pass in any case", () => {
+  it("Will check if the password has a sequence of letters, such as: abc, ghi", () => {
+    // Sets the error value equal to the validation value of this error from index.ts
+    const error =
+      "It cannot contain more than 3 sequences of characters, letters or numbers (abc or 123, for example)";
     // Define the SUT variable receiving the password validation function and pass it as a parameter
-    // Password with no requirement
-    SUT = checkPasswordValid("");
+    // Password without a lowercase letter
+    SUT = checkPasswordValid("m9NI8iXRgIYxabc!!TBK0I");
     // Desestruturing SUT Object
     const { result, errors } = SUT;
     // Set the expected values ​​of sut properties
     expect(result).toEqual(false);
+    expect(errors).toEqual([error]);
+  });
+
+  it("Will check if the password has a sequence of numbers, such as: 123, 567", () => {
+    // Sets the error value equal to the validation value of this error from index.ts
+    const error =
+      "It cannot contain more than 3 sequences of characters, letters or numbers (abc or 123, for example)";
+    // Define the SUT variable receiving the password validation function and pass it as a parameter
+    // Password without a lowercase letter
+    SUT = checkPasswordValid("Tu$OBMgbd3vK!345vDPVP");
+    // Desestruturing SUT Object
+    const { result, errors } = SUT;
+    // Set the expected values ​​of sut properties
+    expect(result).toEqual(false);
+    expect(errors).toEqual([error]);
+  });
+
+  it("Test to verify that the password does not pass in any case", () => {
+    // Define the SUT variable receiving the password validation function and pass it as a parameter
+    // Password with no requirement
+    SUT = checkPasswordValid("aA");
+    // Desestruturing SUT Object
+    const { result, errors } = SUT;
+    // Set the expected values ​​of sut properties
+    expect(result).toEqual(false);
+    // O .not
     expect(errors.length).not.toBe(0 | 1);
   });
 
   it("Test to verify that the password passes in all cases", () => {
     // Define the SUT variable receiving the password validation function and pass it as a parameter
     // Password with all requirements
-    SUT = checkPasswordValid("7JF!h&h3fJpFtd*T^k*^");
+    SUT = checkPasswordValid("7JF!h&h3f JpFtd*T^k*^");
     // Desestruturing SUT Object
     const { result, errors } = SUT;
     // Set the expected values ​​of sut properties
