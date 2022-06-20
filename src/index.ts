@@ -121,9 +121,8 @@ const lowerCaseValid = (password: string): boolean => {
     // It'll return saying that it has a digit or special character. Thus, eliminating from the check.
     // If it is a letter it'll return as false
     if (includeDigitAndSpecialChar(element)) return true;
-    if (element.toLowerCase() === element)
-      // Will lower every element and compare if there is an equivalent.
-      lowCase = true;
+    // Will lower every element and compare if there is an equivalent.
+    if (element.toLowerCase() === element) lowCase = true;
   });
   // If it returns as false it is an error and if it is true, everything is ok with the password.
   return lowCase;
@@ -131,19 +130,32 @@ const lowerCaseValid = (password: string): boolean => {
 
 // It'll check if the password contains sequential characters, for example: 'abc', '123', etc.
 const sequenceValid = (password: string): boolean => {
+  // The for loop will iterate through each element of the password
   for (let i = 0; i < password.length; i++) {
+    // First conditional will check if it has a sequence of numbers
+    // If there is any sequence of numbers it will return a false
     if (
       +password[i + 1] === +password[i] + 1 &&
       +password[i + 2] === +password[i] + 2
     ) {
       return false;
     }
+    // Second conditional will check if there is any sequence of letters in Unicode format,
+    // which it writes letters and other characters in memory assigning a number to each of them.
+    // A - Z = 65 - 90
+    // a - z = 97 - 122
+    // So I'm going to make everything lowercase so it doesn't influence whether it's uppercase or lowercase
+    // If there is any sequence of numbers it will return a false
+    const sequenceLetters = password.toLowerCase();
     if (
-      +password.charCodeAt(i + 1) == +password.charCodeAt(i) + 1 &&
-      +password.charCodeAt(i + 2) == +password.charCodeAt(i) + 2
+      +sequenceLetters.charCodeAt(i + 1) ===
+        +sequenceLetters.charCodeAt(i) + 1 &&
+      +sequenceLetters.charCodeAt(i + 2) === +sequenceLetters.charCodeAt(i) + 2
     ) {
       return false;
     }
   }
   return true;
 };
+
+console.log(checkPasswordValid("14386vfg23Kf!!241ahc"));

@@ -121,15 +121,22 @@ describe("checkPasswordValid", () => {
   });
 
   it("Test to verify that the password does not pass in any case", () => {
+    const allErorr = [
+      "The password must contain 16 to 32 chars",
+      "The password must contain one digit chars",
+      "The password must contain two special chars",
+      "The password must contain uppercase letter",
+      "The password must contain lowercase letter",
+    ];
     // Define the SUT variable receiving the password validation function and pass it as a parameter
     // Password with no requirement
-    SUT = checkPasswordValid("aA");
+    SUT = checkPasswordValid("");
     // Desestruturing SUT Object
     const { result, errors } = SUT;
     // Set the expected values ​​of sut properties
     expect(result).toEqual(false);
     // O .not
-    expect(errors.length).not.toBe(0 | 1);
+    expect(errors).toEqual(allErorr);
   });
 
   it("Test to verify that the password passes in all cases", () => {
