@@ -1,152 +1,105 @@
-// Stores the Digits from 0 to 9.
-const digit: string = "0123456789";
-// Stores the Special Chars.
-const specialChars: string =
-  '&!?@#$*+%=.,/\\[]{}();: ¨ ^~¨´`ç"“”‘’‚„‹›<>«»ºª–­-_  ¯…¦•‣¶§';
-// Store the Maximum Length.
-const minLength: number = 16;
-// Store the Minimun Length.
-const maxLength: number = 32;
+import { specialChars } from "./utils/specialChars";
+import { digits } from "./utils/digits";
+import { minLength } from "./utils/minLength";
+import { maxLength } from "./utils/maxLength";
 
-// Apply the Result Typing.
 export type Response = {
   result: boolean;
   errors: string[];
 };
 
-// It'll Check if the Validations are Correct. Basically like a Validation Checklist.
-// It'll Receive the Password as a Parameter and Pass to the Other Functions that it'll Call.
-export const checkPasswordValid = (password: string): Response => {
-  // In Case of an Error, It'll Change the Result to False and Store the Errors in an Array.
+export const checkPasswordValidation = (password: string): Response => {
   const response: Response = {
     result: true,
     errors: [],
   };
 
-  // It'll Check if Function is True. If False, Returns an Error.
-  // Validation it the Password Contains the Required Length.
   if (password.length < minLength || password.length > maxLength) {
     response.result = false;
     response.errors.push("The password must contain 16 to 32 chars");
   }
 
-  // It'll Check if Function is True. If False, Returns an Error.
-  // Validation it the Password Contains one Digit Chars.
-  if (!digitValid(password)) {
+  if (!digitValidation(password)) {
     response.result = false;
     response.errors.push("The password must contain one digit chars");
   }
 
-  // It'll Check if Function is True. If False, Returns an Error.
-  // Validation it the Password Contains two Special Chars.
-  if (!specialCharsValid(password)) {
+  if (!specialCharsValidation(password)) {
     response.result = false;
     response.errors.push("The password must contain two special chars");
   }
 
-  // It'll Check if Function is True. If False, Returns an Error.
-  // Validation it the Password Contains one Uppercase Letter.
-  if (!upperCaseValid(password)) {
+  if (!upperCaseValidation(password)) {
     response.result = false;
     response.errors.push("The password must contain uppercase letter");
   }
 
-  // It'll Check if Function is True. If False, Returns an Error.
-  // Validation it the Password Contains one Lowercase Letter.
-  if (!lowerCaseValid(password)) {
+  if (!lowerCaseValidation(password)) {
     response.result = false;
     response.errors.push("The password must contain lowercase letter");
   }
 
-  if (!sequenceValid(password)) {
+  if (!sequenceValidation(password)) {
     response.result = false;
     response.errors.push(
       "It cannot contain more than 3 sequences of characters, letters or numbers (abc or 123, for example)"
     );
   }
 
-  // Return the response.
   return response;
 };
 
-// The function will check if the password has one digit.
-const digitValid = (password: string): boolean => {
-  const digitCharacters = password
+const digitValidation = (password: string): boolean => {
+  const digitsCharacters = password
     .split("")
-    .filter((element) => digit.includes(element));
-  return digitCharacters.length < 1 ? false : true;
+    .filter((element) => digits.includes(element));
+  return digitsCharacters.length < 1 ? false : true;
 };
 
-// The function will check if the password has two special chars.
-const specialCharsValid = (password: string): boolean => {
+const specialCharsValidation = (password: string): boolean => {
   const specialCaracteres = password
     .split("")
     .filter((element) => specialChars.includes(element));
   return specialCaracteres.length < 2 ? false : true;
 };
 
-// Function that'll be declared in another function to not repeat the same line of code.
-// It'll check if the character is a digit or a special char.
-// If it is true, it'll take the element out of the validation, because numbers and special characters count as uppercase and lowercase letters.
-const includeDigitAndSpecialChar = (element: string): boolean => {
-  return digit.includes(element) || specialChars.includes(element)
+const removeDigitsAndSpecial = (element: string): boolean => {
+  return digits.includes(element) || specialChars.includes(element)
     ? true
     : false;
 };
 
-// Function that'll validate if it has a uppercase letter
-const upperCaseValid = (password: string): boolean => {
-  // Var that stores a boolean. If it returns false, it'll go through the password verification and return an error.
+const upperCaseValidation = (password: string): boolean => {
   let upCase = false;
-  // Execute a function on each element of an array.
+
   password.split("").forEach((element) => {
-    // Will call the function passing the element.
-    // It'll return saying that it has a digit or special character. Thus, eliminating from the check.
-    // If it is a letter it'll return as false
-    if (includeDigitAndSpecialChar(element)) return true;
-    // Will lower every element and compare if there is an equivalent.
+    if (removeDigitsAndSpecial(element)) return true;
     if (element.toUpperCase() === element) upCase = true;
   });
-  // If it returns as false it is an error and if it is true, everything is ok with the password.
   return upCase;
 };
 
-// Function that will validate if it has a lowercase letter
-const lowerCaseValid = (password: string): boolean => {
-  // Var that stores a boolean. If it returns false, it'll go through the password verification and return an error.
+const lowerCaseValidation = (password: string): boolean => {
   let lowCase = false;
-  // Execute a function on each element of an array.
+
   password.split("").forEach((element) => {
-    // Will call the function passing the element.
-    // It'll return saying that it has a digit or special character. Thus, eliminating from the check.
-    // If it is a letter it'll return as false
-    if (includeDigitAndSpecialChar(element)) return true;
-    // Will lower every element and compare if there is an equivalent.
+    if (removeDigitsAndSpecial(element)) return true;
     if (element.toLowerCase() === element) lowCase = true;
   });
-  // If it returns as false it is an error and if it is true, everything is ok with the password.
   return lowCase;
 };
 
-// It'll check if the password contains sequential characters, for example: 'abc', '123', etc.
-const sequenceValid = (password: string): boolean => {
-  // The for loop will iterate through each element of the password
+const sequenceValidation = (password: string): boolean => {
   for (let i = 0; i < password.length; i++) {
-    // First conditional will check if it has a sequence of numbers
-    // If there is any sequence of numbers it will return a false
     if (
       +password[i + 1] === +password[i] + 1 &&
       +password[i + 2] === +password[i] + 2
     ) {
       return false;
     }
-    // Second conditional will check if there is any sequence of letters in Unicode format,
-    // which it writes letters and other characters in memory assigning a number to each of them.
-    // A - Z = 65 - 90
-    // a - z = 97 - 122
-    // So I'm going to make everything lowercase so it doesn't influence whether it's uppercase or lowercase
-    // If there is any sequence of numbers it will return a false
+
     const sequenceLetters = password.toLowerCase();
+
     if (
       +sequenceLetters.charCodeAt(i + 1) ===
         +sequenceLetters.charCodeAt(i) + 1 &&
@@ -158,4 +111,4 @@ const sequenceValid = (password: string): boolean => {
   return true;
 };
 
-console.log(checkPasswordValid("14386vfg23Kf!!241ahc"));
+console.log(checkPasswordValidation("14386vfg23Kf!!241ahc"));
