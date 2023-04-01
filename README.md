@@ -1,58 +1,58 @@
 <h1 align="center">🔑 PASSWORD VALIDATOR</h1>
 
-> 🔎 É um validador de senha feito com JavaScript
+> 🔎 It's a password validator made with JavaScript
 
-## ⚔️ Desafio
+## ⚔️ Challenge
 
-Nesse desafio, você deverá construir um método/função que deve conseguir receber uma senha e retornar se a mesma é válida, dadas algumas validações. Utilize a linguagem de programação Typescript.
+In this challenge, you must build a method/function that must be able to receive a password and return if it is valid, given some validations. Use the Typescript programming language.
 
-- Deve ser possível receber uma string que passará pelas seguintes validações:
-    - A senha deve conter de 16 a 32 caracteres;
-    - Deve conter pelo menos 2 caracteres especiais;
-    - Deve conter letras maiúsculas e minúsculas;
-    - Não pode conter mais de 3 sequencias de caracteres, letras ou números (abc ou 123, por exemplo).
-- Deve retornar um objeto contendo o resultado (verdadeiro ou falso), e uma lista de erros de validação em que a senha não passou;
-- Deve conter testes unitários para validar os casos listados no exemplo.
-- Utilizar POO (Estudar Muito ou Tentar)
-- Utilizar Typescript.
-- Fazer testes unitários.
+- It must be possible to receive a string that will pass through the following validations:
+    - The password must contain from 16 to 32 characters;
+    - Must contain at least 2 special characters;
+    - Must contain uppercase and lowercase letters;
+    - It cannot contain more than 3 sequences of characters, letters or numbers (abc or 123, for example).
+- Must return an object containing the result (true or false), and a list of validation errors in which the password did not pass;
+- Must contain unit tests to validate the cases listed in the example.
+- Use OOP (Study Hard or Try)
+- Use Typescript.
+- Do unit tests.
 
-## 🚀 Tecnologias ##
+## 🚀 Technologies ##
 
 - [Typescript](https://www.typescriptlang.org/docs/)
 - [Jest](https://jestjs.io/pt-BR/docs/getting-started)
 
-## :closed_book: Como usar? ##
+## :closed_book: How to use it? ##
 
-Antes de iniciar, você precisa ter [Git](https://git-scm.com) e [Node](https://nodejs.org/en/) instalados.
+Before starting, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
 
 ```bash
 # Clone this project
 $ git clone https://github.com/Kayke-Fujinaka/Password-Validation
-# Access
+# access
 $ cd passwordvalidator
-# Install dependencies
-$ yarn or npm 
+# install dependencies
+$ yarn or npm
 # Run the project
-$ yarn start or npm start 
+$ yarn start or npm start
 # The server will initialize in the <http://localhost:3000>
 ```
 
-## 🤝 Colaboradores
+## 🤝 Collaborators
 
-Agradecemos às seguintes pessoas que contribuíram para este projeto:
+Thanks to the following people who contributed to this project:
 
 <table>
   <tr>
     <td align="center">
       <a href="#">
-        <img src="https://avatars.githubusercontent.com/u/98772000?s=400&u=80de9af672be7f75cc7a546838552cf63d5b82fe&v=4" width="160px;" alt="Foto do Kayke Fujinaka no GitHub"/><br>
+        <img src="https://avatars.githubusercontent.com/u/98772000?s=400&u=80de9af672be7f75cc7a546838552cf63d5b82fe&v=4" width="160px;" alt="Photo by Kayke Fujinaka on GitHub"/><br>
         <sub>
           <b>Kayke Fujinaka</b>
         </sub>
       </a>
-    </td>
+    </all>
   </tr>
 </table>
 
-<a href="#top">Volte para o topo</a>
+<a href="#top">Go back to top</a>
